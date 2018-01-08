@@ -12,7 +12,7 @@ Oracle JDBC driver (Put ojdbc*.jar)
 
 ## Compile
 ```
-javac src/OracleShell.java
+javac -d bin src/OracleShell.java
 ```
 
 ## Run
