@@ -54,27 +54,35 @@ public class OracleShell {
 					if (query == null) break;
 					
 					stmt = conn.createStatement();
-	
-					rs = stmt.executeQuery(query);
 					
-					// header
-					ResultSetMetaData rsmd = rs.getMetaData();
-					int numCol = rsmd.getColumnCount();
-					for (int i = 1; i <= numCol; i++) {
-						if (i > 1)
-							System.out.print("\t");
-						System.out.print(rsmd.getColumnLabel(i));
-					}
-					System.out.println();
+					if (query.toLowerCase().startsWith("select ")) {	
+						rs = stmt.executeQuery(query);
 
-					// data
-					while (rs.next()) {
+						// header
+						ResultSetMetaData rsmd = rs.getMetaData();
+						int numCol = rsmd.getColumnCount();
 						for (int i = 1; i <= numCol; i++) {
 							if (i > 1)
 								System.out.print("\t");
-							System.out.print(rs.getString(i));
+							System.out.print(rsmd.getColumnLabel(i));
 						}
 						System.out.println();
+
+						// data
+						while (rs.next()) {
+							for (int i = 1; i <= numCol; i++) {
+								if (i > 1)
+									System.out.print("\t");
+								System.out.print(rs.getString(i));
+							}
+							System.out.println();
+						}
+					} else {
+						// insert, delete, update: returns number of affected rows
+						// create, drop: returns -1
+						// commit: returns 0
+						int ret = stmt.executeUpdate(query);
+						System.out.println("Result: " + ret);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
