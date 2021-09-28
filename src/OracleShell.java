@@ -41,7 +41,7 @@ public class OracleShell {
 			Connection conn;
 
 			conn = DriverManager.getConnection(db_url, db_user, db_password);
-			conn.setAutoCommit(false);;
+			conn.setAutoCommit(false);
 			System.err.println("Autocommit: " + conn.getAutoCommit());
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			while (true) {
